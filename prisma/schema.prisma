@@ -32,8 +32,8 @@ model UserIndividual {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
 
-  firstName String
-  lastName  String
+  firstName String?
+  lastName  String?
   phone     String?
   location  String?
   cvUrl     String?
@@ -45,7 +45,7 @@ model UserCompany {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
 
-  companyName String
+  companyName String?
   rif         String?
   website     String?
   logoUrl     String?

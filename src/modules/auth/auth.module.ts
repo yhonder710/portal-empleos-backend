@@ -4,7 +4,6 @@ import { jwtConstants } from './config/jwt.config';
 import { AuthController } from './infraestructure/http-server/auth.controller';
 import { UsersUseCase } from './application/use-cases/Login-users-use-case';
 import { USER_REPOSITORY } from '../../shared/token/users.token';
-import { MemoryUsersRepo } from './infraestructure/Repository/In-memory.repo';
 import { UsersIndividualUseCase } from './application/use-cases/Register-individual';
 import { UsersCompanyUseCase } from './application/use-cases/Register-company';
 import { RefreshTokenUseCase } from './application/use-cases/Refresh-token-use-case';

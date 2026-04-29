@@ -1,11 +1,11 @@
 export interface UserCompany {
   companyName: string;
-  rif: number;
+  rif: string;
 }
 
 export interface CreateUserCompanyInputPort {
   email: string;
   password: string;
   companyName: string;
-  rif: number;
+  rif: string;
 }

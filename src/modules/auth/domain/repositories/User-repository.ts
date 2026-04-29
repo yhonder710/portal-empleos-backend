@@ -1,7 +1,9 @@
 import { User } from '../entities/User';
 
 export abstract class UserRepository {
-  abstract saveUser(user: User): Promise<User>;
+  abstract saveUserCompany(user: User): Promise<User>;
+
+  abstract saveUserIndividual(user: User): Promise<User>;
 
   abstract userByEmail(email: string): Promise<User | undefined>;
 

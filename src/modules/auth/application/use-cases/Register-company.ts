@@ -34,7 +34,7 @@ export class UsersCompanyUseCase {
         userPort.rif,
       );
 
-      const saveUser = await this.userRepo.saveUser(newUser);
+      const saveUser = await this.userRepo.saveUserCompany(newUser);
 
       return saveUser;
     } catch (error) {
@@ -42,7 +42,6 @@ export class UsersCompanyUseCase {
         throw error;
       }
 
-      console.error(error);
       throw new InternalServerErrorException('Error al crear el usuario');
     }
   }

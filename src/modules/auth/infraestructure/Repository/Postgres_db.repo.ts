@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../prisma/prisma.service';
 import { User } from '../../domain/entities/User';
-import { Role } from '../../domain/interfaces/User.interface';
 import { UserRepository } from '../../domain/repositories/User-repository';
 import { UserMapper } from './UserMapper';
 
@@ -9,12 +8,9 @@ import { UserMapper } from './UserMapper';
 export class PostgresDBRepo implements UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async updateUser(
-    email: string,
-    data: Partial<User>,
-  ): Promise<User | undefined> {
+  async updateUser(id: string, data: Partial<User>): Promise<User | undefined> {
     const updatedUser = await this.prisma.user.update({
-      where: { email },
+      where: { id },
       data: {
         email: data.email,
         password: data.password,
@@ -39,18 +35,37 @@ export class PostgresDBRepo implements UserRepository {
     return UserMapper.toDomain(user);
   }
 
-  async saveUser(user: User): Promise<User> {
+  async saveUserCompany(user: User): Promise<User> {
     const newUserDB = await this.prisma.user.create({
       data: {
         id: user.id,
         email: user.email,
         password: user.password,
-        role: 'COMPANY',
+        role: user.role,
 
         company: {
           create: {
-            companyName: 'Mi empresa',
-            rif: 'J-12345678',
+            companyName: user.userCompany?.companyName,
+            rif: user.userCompany?.rif,
+          },
+        },
+      },
+    });
+    return UserMapper.toDomain(newUserDB);
+  }
+
+  async saveUserIndividual(user: User): Promise<User> {
+    const newUserDB = await this.prisma.user.create({
+      data: {
+        id: user.id,
+        email: user.email,
+        password: user.password,
+        role: user.role,
+
+        individual: {
+          create: {
+            firstName: user.userIndividual?.firstName,
+            lastName: user.userIndividual?.lastName,
           },
         },
       },

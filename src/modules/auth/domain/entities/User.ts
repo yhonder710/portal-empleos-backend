@@ -1,6 +1,8 @@
 import { UserCompany } from '../interfaces/User-company.interface';
 import { UserIndividual } from '../interfaces/User-individual.interface';
-import { Role } from '../interfaces/User.interface';
+
+import { Role } from '@prisma/client';
+export { Role };
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -36,7 +38,7 @@ export class User {
     email: string,
     password: string,
     companyName: string,
-    rif: number,
+    rif: string,
   ): User {
     if (!companyName || !rif) {
       throw new Error('Company requires name and tax ID');

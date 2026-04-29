@@ -11,6 +11,6 @@ export class CreateCompanyDto {
   @IsString()
   companyName!: string;
 
-  @IsNumber()
-  rif!: number;
+  @IsString()
+  rif!: string;
 }
