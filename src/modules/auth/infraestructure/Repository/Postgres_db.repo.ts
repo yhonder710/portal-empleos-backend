@@ -9,7 +9,7 @@ export class PostgresDBRepo implements UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async updateUser(id: string, data: Partial<User>): Promise<User | undefined> {
-    const updatedUser = await this.prisma.user.update({
+    const updatedUser = await this.prisma.accounts.update({
       where: { id },
       data: {
         email: data.email,
@@ -22,11 +22,11 @@ export class PostgresDBRepo implements UserRepository {
   }
 
   async userByEmail(email: string): Promise<User | undefined> {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.accounts.findUnique({
       where: { email },
       include: {
-        individual: true,
-        company: true,
+        users: true,
+        companys: true,
       },
     });
 
@@ -36,14 +36,14 @@ export class PostgresDBRepo implements UserRepository {
   }
 
   async saveUserCompany(user: User): Promise<User> {
-    const newUserDB = await this.prisma.user.create({
+    const newUserDB = await this.prisma.accounts.create({
       data: {
         id: user.id,
         email: user.email,
         password: user.password,
         role: user.role,
 
-        company: {
+        companys: {
           create: {
             companyName: user.userCompany?.companyName,
             rif: user.userCompany?.rif,
@@ -55,14 +55,14 @@ export class PostgresDBRepo implements UserRepository {
   }
 
   async saveUserIndividual(user: User): Promise<User> {
-    const newUserDB = await this.prisma.user.create({
+    const newUserDB = await this.prisma.accounts.create({
       data: {
         id: user.id,
         email: user.email,
         password: user.password,
         role: user.role,
 
-        individual: {
+        users: {
           create: {
             firstName: user.userIndividual?.firstName,
             lastName: user.userIndividual?.lastName,

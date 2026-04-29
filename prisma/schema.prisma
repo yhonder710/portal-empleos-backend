@@ -11,7 +11,7 @@ enum Role {
   COMPANY
 }
 
-model User {
+model Accounts {
   id       String @id
   email    String @unique
   password String
@@ -22,32 +22,78 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  individual UserIndividual?
-  company    UserCompany?
+  users    Users?
+  companys Companys?
 }
 
-model UserIndividual {
+model Users {
   id String @id @default(cuid())
 
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
+  userId   String   @unique
+  accounts Accounts @relation(fields: [userId], references: [id])
 
   firstName String?
   lastName  String?
   phone     String?
   location  String?
   cvUrl     String?
+
+  userPreference UserPreference?
+  applications   Application[]
 }
 
-model UserCompany {
+model Companys {
   id String @id @default(cuid())
 
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
+  userId   String   @unique
+  accounts Accounts @relation(fields: [userId], references: [id])
 
   companyName String?
   rif         String?
   website     String?
   logoUrl     String?
   industry    String?
+
+  vacantes Vacancys[]
+}
+
+model Vacancys {
+  id               String    @id @default(cuid())
+  empresaId        String
+  nombrePuesto     String
+  descripcion      String?
+  ubicacion        String?
+  salarioMin       String?
+  salarioMax       String?
+  modalidad        String?
+  tipoContrato     String?
+  fechaPublicacion DateTime  @default(now())
+  fechaFinita      DateTime?
+  estado           String?
+
+  company      Companys      @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  applications Application[]
+}
+
+model Application {
+  id               String   @id @default(cuid())
+  userId           String
+  vacanteId        String
+  fechaPostulacion DateTime @default(now()) @map("fecha_postulacion")
+  estado           String?
+
+  user    Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vacancy Vacancys @relation(fields: [vacanteId], references: [id], onDelete: Cascade)
+}
+
+model UserPreference {
+  id                String  @id @default(cuid())
+  userId            String  @unique
+  modalidadPref     String?
+  rangoSalarioMin   Int?
+  rangoSalarioMax   Int?
+  ubicacionDeseada  String?
+  categoriasInteres String?
+
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
