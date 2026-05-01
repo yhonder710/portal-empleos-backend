@@ -13,6 +13,8 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
       envFilePath: '.env',
     }),
+
+    //modulos principales de la app
     AuthModule,
     JobsModule,
     MessagingModule,
