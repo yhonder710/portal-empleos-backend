@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './config/jwt.config';
 import { AuthController } from './infraestructure/http-server/auth.controller';
 import { UsersUseCase } from './application/use-cases/Login-users-use-case';
 import { USER_REPOSITORY } from '../../shared/token/users.token';
@@ -11,15 +10,17 @@ import { ServicesToken } from './application/services/Save-token';
 import { ClearTokenUseCase } from './application/use-cases/Logout-user-use-case';
 import { PostgresDBRepo } from './infraestructure/Repository/Postgres_db.repo';
 import { PrismaModule } from '../../prisma/prisma.module';
+import 'dotenv/config';
 
 @Module({
   imports: [
     PrismaModule,
     JwtModule.register({
       global: true,
-      secret: jwtConstants.secret,
+      secret: process.env.JWT_SECRET,
     }),
   ],
+
   providers: [
     UsersUseCase,
     UsersIndividualUseCase,
@@ -29,6 +30,7 @@ import { PrismaModule } from '../../prisma/prisma.module';
     ClearTokenUseCase,
     { provide: USER_REPOSITORY, useClass: PostgresDBRepo },
   ],
+
   controllers: [AuthController],
 })
 export class AuthModule {}

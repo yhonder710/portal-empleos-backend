@@ -4,7 +4,6 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { jwtConstants } from '../config/jwt.config';
 import { JwtService } from '@nestjs/jwt';
 import { CustomRequest } from '../domain/interfaces/Custom-request';
 import { JwtPayload } from '../domain/interfaces/jwt-payload.interface';
@@ -20,10 +19,9 @@ export class AuthGuard implements CanActivate {
     if (!token) {
       throw new UnauthorizedException('No token found');
     }
-    const payload: JwtPayload = await this.jwtService.verifyAsync(
-      token,
-      jwtConstants,
-    );
+    const payload: JwtPayload = await this.jwtService.verifyAsync(token, {
+      secret: process.env.JWT_SECRET,
+    });
 
     request['user'] = payload;
 
