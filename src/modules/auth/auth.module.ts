@@ -11,6 +11,7 @@ import { ClearTokenUseCase } from './application/use-cases/Logout-user-use-case'
 import { PostgresDBRepo } from './infraestructure/Repository/Postgres_db.repo';
 import { PrismaModule } from '../../prisma/prisma.module';
 import 'dotenv/config';
+import { MailService } from '../../shared/services/messageEmail.service';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import 'dotenv/config';
   ],
 
   providers: [
+    MailService,
     UsersUseCase,
     UsersIndividualUseCase,
     UsersCompanyUseCase,
