@@ -39,6 +39,13 @@ export class User {
     password: string,
     companyName: string,
     rif: string,
+    phone: string,
+    address: string,
+    description: string,
+    website?: string,
+    size?: string,
+    sector?: string,
+    logoUrl?: string,
   ): User {
     if (!companyName || !rif) {
       throw new Error('Company requires name and tax ID');
@@ -46,6 +53,13 @@ export class User {
     return new User(uuidv4(), email, password, Role.COMPANY, undefined, {
       companyName: companyName,
       rif: rif,
+      phone: phone,
+      address: address,
+      description: description,
+      website: website,
+      size: size,
+      sector: sector,
+      logoUrl: logoUrl,
     });
   }
 }

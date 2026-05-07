@@ -36,20 +36,12 @@ export class UsersUseCase {
     const payload = { email: user.email, role: user.role };
 
     const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '1h',
+      expiresIn: '2m',
     });
 
     const refreshToken = this.jwtService.sign(payload, {
       expiresIn: '7d',
     });
-
-    console.time('sendWelcomeEmail');
-    //esto no va aqui solo se uso de pruebas
-    await this.emailSevices.sendWelcomeEmail(
-      user.email,
-      user.userCompany?.companyName,
-    );
-    console.timeEnd('sendWelcomeEmail');
 
     await this.servicesToken.saveRefreshToken(user.id, refreshToken);
 

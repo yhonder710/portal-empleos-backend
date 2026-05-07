@@ -50,9 +50,15 @@ model Companys {
 
   companyName String?
   rif         String?
-  website     String?
-  logoUrl     String?
-  industry    String?
+  phone       String?
+  address     String?
+  description String?
+
+  // Datos opcionales
+  website String?
+  size    String? // Por ejemplo: "1-10", "11-50", etc.
+  sector  String? // Por ejemplo: "technology", "health", etc.
+  logoUrl String? // (lo tenías originalmente, lo conservamos)
 
   vacantes Vacancys[]
 }

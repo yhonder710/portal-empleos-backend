@@ -9,8 +9,6 @@ import { ConfigModule } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { getMailerConfig } from './config/mailer.config';
 
-console.log('holaa');
-
 @Module({
   imports: [
     ConfigModule.forRoot({

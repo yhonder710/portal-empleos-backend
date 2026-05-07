@@ -32,6 +32,13 @@ export class UsersCompanyUseCase {
         hashedPassword,
         userPort.companyName,
         userPort.rif,
+        userPort.phone,
+        userPort.address,
+        userPort.description,
+        userPort.website,
+        userPort.size,
+        userPort.sector,
+        userPort.logoUrl,
       );
 
       const saveUser = await this.userRepo.saveUserCompany(newUser);

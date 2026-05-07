@@ -47,6 +47,13 @@ export class PostgresDBRepo implements UserRepository {
           create: {
             companyName: user.userCompany?.companyName,
             rif: user.userCompany?.rif,
+            phone: user.userCompany?.phone,
+            address: user.userCompany?.address,
+            description: user.userCompany?.description,
+            website: user.userCompany?.website,
+            sector: user.userCompany?.sector,
+            size: user.userCompany?.size,
+            logoUrl: user.userCompany?.logoUrl,
           },
         },
       },
