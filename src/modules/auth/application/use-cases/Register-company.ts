@@ -32,9 +32,16 @@ export class UsersCompanyUseCase {
         hashedPassword,
         userPort.companyName,
         userPort.rif,
+        userPort.phone,
+        userPort.address,
+        userPort.description,
+        userPort.website,
+        userPort.size,
+        userPort.sector,
+        userPort.logoUrl,
       );
 
-      const saveUser = await this.userRepo.saveUser(newUser);
+      const saveUser = await this.userRepo.saveUserCompany(newUser);
 
       return saveUser;
     } catch (error) {
@@ -42,7 +49,6 @@ export class UsersCompanyUseCase {
         throw error;
       }
 
-      console.error(error);
       throw new InternalServerErrorException('Error al crear el usuario');
     }
   }

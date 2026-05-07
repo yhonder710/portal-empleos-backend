@@ -1,5 +1,3 @@
-import { Role } from './User.interface';
-
 export interface UserIndividual {
   firstName: string;
   lastName: string;

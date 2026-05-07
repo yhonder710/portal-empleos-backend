@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../prisma/prisma.service';
 import { User } from '../../domain/entities/User';
-import { Role } from '../../domain/interfaces/User.interface';
 import { UserRepository } from '../../domain/repositories/User-repository';
 import { UserMapper } from './UserMapper';
 
@@ -9,12 +8,9 @@ import { UserMapper } from './UserMapper';
 export class PostgresDBRepo implements UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async updateUser(
-    email: string,
-    data: Partial<User>,
-  ): Promise<User | undefined> {
-    const updatedUser = await this.prisma.user.update({
-      where: { email },
+  async updateUser(id: string, data: Partial<User>): Promise<User | undefined> {
+    const updatedUser = await this.prisma.accounts.update({
+      where: { id },
       data: {
         email: data.email,
         password: data.password,
@@ -26,11 +22,11 @@ export class PostgresDBRepo implements UserRepository {
   }
 
   async userByEmail(email: string): Promise<User | undefined> {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.accounts.findUnique({
       where: { email },
       include: {
-        individual: true,
-        company: true,
+        users: true,
+        companys: true,
       },
     });
 
@@ -39,18 +35,44 @@ export class PostgresDBRepo implements UserRepository {
     return UserMapper.toDomain(user);
   }
 
-  async saveUser(user: User): Promise<User> {
-    const newUserDB = await this.prisma.user.create({
+  async saveUserCompany(user: User): Promise<User> {
+    const newUserDB = await this.prisma.accounts.create({
       data: {
         id: user.id,
         email: user.email,
         password: user.password,
-        role: 'COMPANY',
+        role: user.role,
 
-        company: {
+        companys: {
           create: {
-            companyName: 'Mi empresa',
-            rif: 'J-12345678',
+            companyName: user.userCompany?.companyName,
+            rif: user.userCompany?.rif,
+            phone: user.userCompany?.phone,
+            address: user.userCompany?.address,
+            description: user.userCompany?.description,
+            website: user.userCompany?.website,
+            sector: user.userCompany?.sector,
+            size: user.userCompany?.size,
+            logoUrl: user.userCompany?.logoUrl,
+          },
+        },
+      },
+    });
+    return UserMapper.toDomain(newUserDB);
+  }
+
+  async saveUserIndividual(user: User): Promise<User> {
+    const newUserDB = await this.prisma.accounts.create({
+      data: {
+        id: user.id,
+        email: user.email,
+        password: user.password,
+        role: user.role,
+
+        users: {
+          create: {
+            firstName: user.userIndividual?.firstName,
+            lastName: user.userIndividual?.lastName,
           },
         },
       },

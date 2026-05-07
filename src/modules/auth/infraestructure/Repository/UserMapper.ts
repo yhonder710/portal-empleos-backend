@@ -1,6 +1,5 @@
-import { User as PrismaUser } from '@prisma/client';
+import { Accounts as PrismaUser } from '@prisma/client';
 import { User } from '../../domain/entities/User';
-import { Role } from '../../domain/interfaces/User.interface';
 
 export class UserMapper {
   static toDomain(user: PrismaUser): User {
@@ -8,7 +7,7 @@ export class UserMapper {
       user.id,
       user.email,
       user.password,
-      Role.COMPANY,
+      user.role,
       undefined, // userIndividual (si lo traes luego con include)
       undefined, // userCompany
       user.refreshToken ?? undefined,

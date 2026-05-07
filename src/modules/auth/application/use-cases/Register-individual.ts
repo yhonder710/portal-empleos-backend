@@ -35,7 +35,7 @@ export class UsersIndividualUseCase {
         userPort.lastName,
       );
 
-      const saveUser = await this.userRepo.saveUser(newUser);
+      const saveUser = await this.userRepo.saveUserIndividual(newUser);
 
       return saveUser;
     } catch (error) {

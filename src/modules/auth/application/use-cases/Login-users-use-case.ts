@@ -5,6 +5,7 @@ import { LoginUserInputPort } from '../../domain/interfaces/User.interface';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ServicesToken } from '../services/Save-token';
+import { MailService } from '../../../../shared/services/messageEmail.service';
 
 @Injectable()
 export class UsersUseCase {
@@ -13,6 +14,7 @@ export class UsersUseCase {
     private readonly userRepo: UserRepository,
     private readonly jwtService: JwtService,
     private readonly servicesToken: ServicesToken,
+    private readonly emailSevices: MailService,
   ) {}
 
   async login(userPort: LoginUserInputPort) {
@@ -34,7 +36,7 @@ export class UsersUseCase {
     const payload = { email: user.email, role: user.role };
 
     const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '1h',
+      expiresIn: '2m',
     });
 
     const refreshToken = this.jwtService.sign(payload, {
