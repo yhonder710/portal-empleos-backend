@@ -33,6 +33,11 @@ export class UsersIndividualUseCase {
         hashedPassword,
         userPort.firstName,
         userPort.lastName,
+        userPort.phone,
+        userPort.address,
+        userPort.experience,
+        userPort.workArea,
+        userPort.description,
       );
 
       const saveUser = await this.userRepo.saveUserIndividual(newUser);

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../prisma/prisma.service';
 import { User } from '../../domain/entities/User';
 import { UserRepository } from '../../domain/repositories/User-repository';
-import { UserMapper } from './UserMapper';
+import { UserMapper } from '../mapper/UserMapper';
 
 @Injectable()
 export class PostgresDBRepo implements UserRepository {
@@ -73,6 +73,11 @@ export class PostgresDBRepo implements UserRepository {
           create: {
             firstName: user.userIndividual?.firstName,
             lastName: user.userIndividual?.lastName,
+            phone: user.userIndividual?.phone,
+            address: user.userIndividual?.address,
+            experience: user.userIndividual?.experience,
+            workArea: user.userIndividual?.workArea,
+            description: user.userIndividual?.description,
           },
         },
       },

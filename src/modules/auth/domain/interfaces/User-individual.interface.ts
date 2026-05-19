@@ -1,6 +1,11 @@
 export interface UserIndividual {
   firstName: string;
   lastName: string;
+  phone: string;
+  address: string;
+  experience: number;
+  workArea: string;
+  description: string;
 }
 
 export interface CreateUserIndividualInputPort {
@@ -8,4 +13,9 @@ export interface CreateUserIndividualInputPort {
   password: string;
   firstName: string;
   lastName: string;
+  phone: string;
+  address: string;
+  experience: number;
+  workArea: string;
+  description: string;
 }

@@ -23,6 +23,11 @@ export class User {
     password: string,
     firstName: string,
     lastName: string,
+    phone: string,
+    address: string,
+    experience: number,
+    workArea: string,
+    description: string,
   ): User {
     if (!firstName || !lastName) {
       throw new Error('Individual requires first & last name');
@@ -31,6 +36,11 @@ export class User {
     return new User(uuidv4(), email, password, Role.USER, {
       firstName: firstName,
       lastName: lastName,
+      phone: phone,
+      address: address,
+      experience: experience,
+      workArea: workArea,
+      description: description,
     });
   }
 

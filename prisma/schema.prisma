@@ -35,8 +35,10 @@ model Users {
   firstName String?
   lastName  String?
   phone     String?
-  location  String?
-  cvUrl     String?
+  address  String?
+  experience  Int?
+  workArea    String?
+  description String?
 
   userPreference UserPreference?
   applications   Application[]

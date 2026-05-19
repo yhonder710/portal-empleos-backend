@@ -12,6 +12,7 @@ import { PostgresDBRepo } from './infraestructure/Repository/Postgres_db.repo';
 import { PrismaModule } from '../../prisma/prisma.module';
 import 'dotenv/config';
 import { MailService } from '../../shared/services/messageEmail.service';
+import { accountVerificationUseCase } from './application/use-cases/Account-verification';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { MailService } from '../../shared/services/messageEmail.service';
   ],
 
   providers: [
-    MailService,
+    accountVerificationUseCase,
     UsersUseCase,
     UsersIndividualUseCase,
     UsersCompanyUseCase,

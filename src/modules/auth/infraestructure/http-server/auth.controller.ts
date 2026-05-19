@@ -23,6 +23,7 @@ import { CreateCompanyDto } from './dto/Create-company.dto';
 import { CreateIndividualDto } from './dto/Create-individual.dto';
 import { RefreshTokenUseCase } from '../../application/use-cases/Refresh-token-use-case';
 import { ClearTokenUseCase } from '../../application/use-cases/Logout-user-use-case';
+import { accountVerificationUseCase } from '../../application/use-cases/Account-verification';
 
 @Controller('auth')
 export class AuthController {
@@ -32,6 +33,7 @@ export class AuthController {
     private useCaseCompany: UsersCompanyUseCase,
     private useCaseRefreshToken: RefreshTokenUseCase,
     private useCaseClearToken: ClearTokenUseCase,
+    private useCaseVerification: accountVerificationUseCase,
   ) {}
 
   @Post('/register/user')
@@ -130,4 +132,21 @@ export class AuthController {
 
     return clearToken;
   }
+
+  @Post('/send-verification-code')
+  @UseGuards(AuthGuard)
+  sendVerificationCode(@Req() req: RequestWithUser) {
+    const user = req.user;
+
+    const newCode = this.useCaseVerification.sendVerificationCode(user.email);
+
+    return {
+      user: user,
+      code: newCode,
+      message: 'Se a enviado el codigo',
+    };
+  }
+
+  @Post('verify-code')
+  async verifyCode() {}
 }
