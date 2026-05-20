@@ -12,10 +12,11 @@ enum Role {
 }
 
 model Accounts {
-  id       String @id
-  email    String @unique
-  password String
-  role     Role
+  id         String  @id
+  email      String  @unique
+  password   String
+  role       Role
+  isVerified Boolean @default(false)
 
   refreshToken String?
 
@@ -32,10 +33,10 @@ model Users {
   userId   String   @unique
   accounts Accounts @relation(fields: [userId], references: [id])
 
-  firstName String?
-  lastName  String?
-  phone     String?
-  address  String?
+  firstName   String?
+  lastName    String?
+  phone       String?
+  address     String?
   experience  Int?
   workArea    String?
   description String?

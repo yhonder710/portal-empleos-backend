@@ -13,6 +13,7 @@ import { PrismaModule } from '../../prisma/prisma.module';
 import 'dotenv/config';
 import { MailService } from '../../shared/services/messageEmail.service';
 import { accountVerificationUseCase } from './application/use-cases/Account-verification';
+import { OtpService } from '../../shared/services/otp.service';
 
 @Module({
   imports: [
@@ -24,6 +25,8 @@ import { accountVerificationUseCase } from './application/use-cases/Account-veri
   ],
 
   providers: [
+    MailService,
+    OtpService,
     accountVerificationUseCase,
     UsersUseCase,
     UsersIndividualUseCase,

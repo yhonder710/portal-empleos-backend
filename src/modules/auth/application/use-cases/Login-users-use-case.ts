@@ -31,7 +31,11 @@ export class UsersUseCase {
       throw new UnauthorizedException('password is wrong');
     }
 
-    const payload = { email: user.email, role: user.role };
+    const payload = {
+      email: user.email,
+      role: user.role,
+      isVerified: user.isVerified,
+    };
 
     const accessToken = this.jwtService.sign(payload, {
       expiresIn: '1d',

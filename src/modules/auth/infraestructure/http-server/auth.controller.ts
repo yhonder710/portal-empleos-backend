@@ -24,6 +24,7 @@ import { CreateIndividualDto } from './dto/Create-individual.dto';
 import { RefreshTokenUseCase } from '../../application/use-cases/Refresh-token-use-case';
 import { ClearTokenUseCase } from '../../application/use-cases/Logout-user-use-case';
 import { accountVerificationUseCase } from '../../application/use-cases/Account-verification';
+import { VerifyCodeDto } from './dto/verify-code.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -135,10 +136,12 @@ export class AuthController {
 
   @Post('/send-verification-code')
   @UseGuards(AuthGuard)
-  sendVerificationCode(@Req() req: RequestWithUser) {
+  async sendVerificationCode(@Req() req: RequestWithUser) {
     const user = req.user;
 
-    const newCode = this.useCaseVerification.sendVerificationCode(user.email);
+    const newCode = await this.useCaseVerification.sendVerificationCode(
+      user.email,
+    );
 
     return {
       user: user,
@@ -148,5 +151,7 @@ export class AuthController {
   }
 
   @Post('verify-code')
-  async verifyCode() {}
+  async verifyCode(@Body() body: VerifyCodeDto) {
+    return this.useCaseVerification.verifyCode(body.email, body.code);
+  }
 }

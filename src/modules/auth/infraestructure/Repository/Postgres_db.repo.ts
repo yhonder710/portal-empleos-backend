@@ -15,6 +15,7 @@ export class PostgresDBRepo implements UserRepository {
         email: data.email,
         password: data.password,
         refreshToken: data.refreshToken ?? null,
+        isVerified: data.isVerified,
       },
     });
 

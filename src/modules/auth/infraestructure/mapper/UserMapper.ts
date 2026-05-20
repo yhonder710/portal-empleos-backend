@@ -8,6 +8,7 @@ export class UserMapper {
       user.email,
       user.password,
       user.role,
+      user.isVerified,
       undefined, // userIndividual (si lo traes luego con include)
       undefined, // userCompany
       user.refreshToken ?? undefined,

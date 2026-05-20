@@ -12,6 +12,7 @@ export class User {
     public email: string,
     public password: string,
     public role: Role,
+    public isVerified: boolean,
     //campos por roles
     public userIndividual?: UserIndividual,
     public userCompany?: UserCompany,
@@ -33,7 +34,7 @@ export class User {
       throw new Error('Individual requires first & last name');
     }
 
-    return new User(uuidv4(), email, password, Role.USER, {
+    return new User(uuidv4(), email, password, Role.USER, false, {
       firstName: firstName,
       lastName: lastName,
       phone: phone,
@@ -60,7 +61,7 @@ export class User {
     if (!companyName || !rif) {
       throw new Error('Company requires name and tax ID');
     }
-    return new User(uuidv4(), email, password, Role.COMPANY, undefined, {
+    return new User(uuidv4(), email, password, Role.COMPANY, false, undefined, {
       companyName: companyName,
       rif: rif,
       phone: phone,
