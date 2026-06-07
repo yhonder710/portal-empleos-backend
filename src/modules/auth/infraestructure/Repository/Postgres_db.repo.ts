@@ -22,6 +22,25 @@ export class PostgresDBRepo implements UserRepository {
     return updatedUser ? UserMapper.toDomain(updatedUser) : undefined;
   }
 
+  async saveUpdateUser(user: User): Promise<User | undefined> {
+    const updatedUser = await this.prisma.accounts.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        email: user.email,
+        password: user.password,
+        refreshToken: user.refreshToken ?? null,
+        isVerified: user.isVerified,
+      },
+    });
+
+    if (!updatedUser) return undefined;
+
+    // 2. Devolvemos la entidad fresca mapeada a dominio por si el caso de uso la necesita
+    return UserMapper.toDomain(updatedUser);
+  }
+
   async userByEmail(email: string): Promise<User | undefined> {
     const user = await this.prisma.accounts.findUnique({
       where: { email },

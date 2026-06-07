@@ -2,6 +2,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { OtpService } from '../../../../shared/services/otp.service';
 import { MailService } from '../../../../shared/services/messageEmail.service';
 import { UserRepository } from '../../domain/repositories/User-repository';
+import { User } from '../../domain/entities/User';
 
 @Injectable()
 export class accountVerificationUseCase {
@@ -33,13 +34,13 @@ export class accountVerificationUseCase {
       throw new BadRequestException('User inválido');
     }
 
-    const newData = await this.userRepo.updateUser(user.id, {
-      isVerified: true,
-    });
+    user.verifyAccount();
+
+    console.log(user);
+
+    await this.userRepo.saveUpdateUser(user);
 
     await this.otpService.deleteCode(email);
-
-    console.log(newData);
 
     return {
       success: true,

@@ -95,4 +95,13 @@ export class User {
       data.refreshToken,
     );
   }
+
+  // Logica de negocio
+  public verifyAccount(): void {
+    if (this.isVerified) {
+      throw new Error('Esta cuenta ya ha sido verificada previamente.');
+    }
+
+    this.isVerified = true;
+  }
 }
