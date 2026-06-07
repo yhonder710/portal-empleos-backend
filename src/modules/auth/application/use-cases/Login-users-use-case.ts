@@ -5,12 +5,15 @@ import { LoginUserInputPort } from '../../domain/interfaces/User.interface';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ServicesToken } from '../services/Save-token';
+import type { HashService } from '../../domain/interfaces/hash-service.interface';
 
 @Injectable()
 export class UsersUseCase {
   constructor(
     @Inject('USER_REPOSITORY')
     private readonly userRepo: UserRepository,
+    @Inject('HASH_SERVICE')
+    private readonly hashService: HashService,
     private readonly jwtService: JwtService,
     private readonly servicesToken: ServicesToken,
   ) {}
@@ -22,7 +25,7 @@ export class UsersUseCase {
       throw new UnauthorizedException('El email no encontrado');
     }
 
-    const isPasswordvalid = await bcrypt.compare(
+    const isPasswordvalid = await this.hashService.compare(
       userPort.password,
       user.password,
     );

@@ -9,12 +9,15 @@ import { UserRepository } from '../../domain/repositories/User-repository';
 import * as bcrypt from 'bcrypt';
 import { User } from '../../domain/entities/User';
 import { CreateUserCompanyInputPort } from '../../domain/interfaces/User-company.interface';
+import type { HashService } from '../../domain/interfaces/hash-service.interface';
 
 @Injectable()
 export class UsersCompanyUseCase {
   constructor(
     @Inject('USER_REPOSITORY')
     private readonly userRepo: UserRepository,
+    @Inject('HASH_SERVICE')
+    private readonly hashService: HashService,
   ) {}
 
   async register(userPort: CreateUserCompanyInputPort): Promise<User> {
@@ -24,8 +27,7 @@ export class UsersCompanyUseCase {
       if (existingUser) {
         throw new ConflictException('El email ya está registrado');
       }
-      //la cantida de hasheos se para por variables de entorno
-      const hashedPassword = await bcrypt.hash(userPort.password, 10);
+      const hashedPassword = await this.hashService.hash(userPort.password);
 
       const newUser = User.createCompany(
         userPort.email,
