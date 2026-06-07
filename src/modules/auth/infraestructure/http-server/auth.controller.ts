@@ -107,7 +107,7 @@ export class AuthController {
     return { message: 'refreshed' };
   }
 
-  @Get('/')
+  @Get('/') // cambiar por ruta de cookies
   @UseGuards(AuthGuard)
   verUsers(@Req() req: RequestWithUser) {
     const user = req.user;

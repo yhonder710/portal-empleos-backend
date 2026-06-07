@@ -7,7 +7,7 @@ export { Role };
 import { v4 as uuidv4 } from 'uuid';
 
 export class User {
-  constructor(
+  private constructor(
     public id: string,
     public email: string,
     public password: string,
@@ -72,5 +72,27 @@ export class User {
       sector: sector,
       logoUrl: logoUrl,
     });
+  }
+
+  static reconstitute_mapper(data: {
+    id: string;
+    email: string;
+    password: string;
+    role: Role;
+    isVerified: boolean;
+    userIndividual?: UserIndividual;
+    userCompany?: UserCompany;
+    refreshToken?: string;
+  }): User {
+    return new User(
+      data.id,
+      data.email,
+      data.password,
+      data.role,
+      data.isVerified,
+      data.userIndividual,
+      data.userCompany,
+      data.refreshToken,
+    );
   }
 }
