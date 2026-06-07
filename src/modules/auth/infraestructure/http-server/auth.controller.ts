@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Patch,
   Post,
   Req,
   Res,
@@ -25,6 +26,8 @@ import { RefreshTokenUseCase } from '../../application/use-cases/Refresh-token-u
 import { ClearTokenUseCase } from '../../application/use-cases/Logout-user-use-case';
 import { accountVerificationUseCase } from '../../application/use-cases/Account-verification';
 import { VerifyCodeDto } from './dto/verify-code.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { ChangePasswordUseCase } from '../../application/use-cases/Change-password-use-case';
 
 @Controller('auth')
 export class AuthController {
@@ -35,6 +38,7 @@ export class AuthController {
     private useCaseRefreshToken: RefreshTokenUseCase,
     private useCaseClearToken: ClearTokenUseCase,
     private useCaseVerification: accountVerificationUseCase,
+    private changePasswordUseCase: ChangePasswordUseCase,
   ) {}
 
   @Post('/register/user')
@@ -153,5 +157,11 @@ export class AuthController {
   @Post('verify-code')
   async verifyCode(@Body() body: VerifyCodeDto) {
     return this.useCaseVerification.verifyCode(body.email, body.code);
+  }
+
+  @Patch('change-password')
+  async changePassword(@Body() dto: ChangePasswordDto) {
+    await this.changePasswordUseCase.execute(dto.email, dto.NewPassword);
+    return { message: 'Contraseña actualizada correctamente.' };
   }
 }

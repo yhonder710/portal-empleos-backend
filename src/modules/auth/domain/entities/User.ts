@@ -1,3 +1,4 @@
+import { HashService } from '../interfaces/hash-service.interface';
 import { UserCompany } from '../interfaces/User-company.interface';
 import { UserIndividual } from '../interfaces/User-individual.interface';
 
@@ -103,5 +104,24 @@ export class User {
     }
 
     this.isVerified = true;
+  }
+
+  public async changePassword(
+    plainNewPassword: string,
+    hashService: HashService,
+  ): Promise<void> {
+    if (!plainNewPassword || plainNewPassword.length < 6) {
+      throw new Error('La nueva contraseña debe tener al menos 6 caracteres.');
+    }
+
+    const isSamePassword = await hashService.compare(
+      plainNewPassword,
+      this.password,
+    );
+    if (isSamePassword) {
+      throw new Error('La nueva contraseña no puede ser igual a la actual.');
+    }
+
+    this.password = await hashService.hash(plainNewPassword);
   }
 }

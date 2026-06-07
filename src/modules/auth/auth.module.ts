@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './infraestructure/http-server/auth.controller';
 import { UsersUseCase } from './application/use-cases/Login-users-use-case';
-import { USER_REPOSITORY } from '../../shared/token/users.token';
 import { UsersIndividualUseCase } from './application/use-cases/Register-individual';
 import { UsersCompanyUseCase } from './application/use-cases/Register-company';
 import { RefreshTokenUseCase } from './application/use-cases/Refresh-token-use-case';
@@ -14,6 +13,8 @@ import 'dotenv/config';
 import { MailService } from '../../shared/services/messageEmail.service';
 import { accountVerificationUseCase } from './application/use-cases/Account-verification';
 import { OtpService } from '../../shared/services/otp.service';
+import { ChangePasswordUseCase } from './application/use-cases/Change-password-use-case';
+import { BcryptHashService } from './infraestructure/services/bcrypt-hash.service';
 
 @Module({
   imports: [
@@ -34,7 +35,9 @@ import { OtpService } from '../../shared/services/otp.service';
     RefreshTokenUseCase,
     ServicesToken,
     ClearTokenUseCase,
-    { provide: USER_REPOSITORY, useClass: PostgresDBRepo },
+    ChangePasswordUseCase,
+    { provide: 'USER_REPOSITORY', useClass: PostgresDBRepo },
+    { provide: 'HASH_SERVICE', useClass: BcryptHashService },
   ],
 
   controllers: [AuthController],
