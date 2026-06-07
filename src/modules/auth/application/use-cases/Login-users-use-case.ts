@@ -2,7 +2,6 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserRepository } from '../../domain/repositories/User-repository';
 import { LoginUserInputPort } from '../../domain/interfaces/User.interface';
 
-import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ServicesToken } from '../services/Save-token';
 import type { HashService } from '../../domain/interfaces/hash-service.interface';
@@ -41,7 +40,7 @@ export class UsersUseCase {
     };
 
     const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '1d',
+      expiresIn: '15m',
     });
 
     const refreshToken = this.jwtService.sign(payload, {

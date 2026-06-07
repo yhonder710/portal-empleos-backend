@@ -10,7 +10,7 @@ export abstract class UserRepository {
   abstract saveUpdateUser(user: Partial<User>): Promise<User | undefined>;
 
   abstract updateUser(
-    email: string,
+    id: string,
     user: Partial<User>,
   ): Promise<User | undefined>;
 }

@@ -24,7 +24,7 @@ import { CreateCompanyDto } from './dto/Create-company.dto';
 import { CreateIndividualDto } from './dto/Create-individual.dto';
 import { RefreshTokenUseCase } from '../../application/use-cases/Refresh-token-use-case';
 import { ClearTokenUseCase } from '../../application/use-cases/Logout-user-use-case';
-import { accountVerificationUseCase } from '../../application/use-cases/Account-verification';
+import { AccountVerificationUseCase } from '../../application/use-cases/Account-verification';
 import { VerifyCodeDto } from './dto/verify-code.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangePasswordUseCase } from '../../application/use-cases/Change-password-use-case';
@@ -37,7 +37,7 @@ export class AuthController {
     private useCaseCompany: UsersCompanyUseCase,
     private useCaseRefreshToken: RefreshTokenUseCase,
     private useCaseClearToken: ClearTokenUseCase,
-    private useCaseVerification: accountVerificationUseCase,
+    private useCaseVerification: AccountVerificationUseCase,
     private changePasswordUseCase: ChangePasswordUseCase,
   ) {}
 
@@ -70,14 +70,16 @@ export class AuthController {
 
     res.cookie('access_token', user.accessToken, {
       httpOnly: true,
-      secure: false, // true en production
+      secure: true, // true en production
       sameSite: 'strict',
-      maxAge: 1000 * 60 * 60 * 24, // 1 dia
+      maxAge: 1000 * 60 * 15, // 15min
     });
 
     res.cookie('refresh_token', user.refreshToken, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 días
+      secure: true, // true en production
+      sameSite: 'strict',
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 
     return { message: 'Login successful' };
@@ -123,14 +125,17 @@ export class AuthController {
   }
 
   @Post('/logout')
-  logout(@Res({ passthrough: true }) res: Response, @Req() req: CustomRequest) {
+  async logout(
+    @Res({ passthrough: true }) res: Response,
+    @Req() req: CustomRequest,
+  ) {
     const refreshToken = req.cookies?.refresh_token;
 
     if (!refreshToken) {
       throw new UnauthorizedException('No tienes nigun token aun');
     }
 
-    const clearToken = this.useCaseClearToken.clearToken(refreshToken);
+    const clearToken = await this.useCaseClearToken.clearToken(refreshToken);
 
     res.clearCookie('access_token');
     res.clearCookie('refresh_token');
@@ -143,13 +148,10 @@ export class AuthController {
   async sendVerificationCode(@Req() req: RequestWithUser) {
     const user = req.user;
 
-    const newCode = await this.useCaseVerification.sendVerificationCode(
-      user.email,
-    );
+    await this.useCaseVerification.sendVerificationCode(user.email);
 
     return {
       user: user,
-      code: newCode,
       message: 'Se a enviado el codigo',
     };
   }

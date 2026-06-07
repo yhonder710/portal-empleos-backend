@@ -8,14 +8,16 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../../domain/repositories/User-repository';
 import { JwtPayload } from '../../domain/interfaces/jwt-payload.interface';
-import * as bcrypt from 'bcrypt';
 import { ServicesToken } from '../services/Save-token';
+import type { HashService } from '../../domain/interfaces/hash-service.interface';
 
 @Injectable()
 export class RefreshTokenUseCase {
   constructor(
     @Inject('USER_REPOSITORY')
     private readonly userRepo: UserRepository,
+    @Inject('HASH_SERVICE')
+    private readonly hashService: HashService,
     private readonly jwtService: JwtService,
     private readonly servicesToken: ServicesToken,
   ) {}
@@ -35,13 +37,16 @@ export class RefreshTokenUseCase {
       throw new UnauthorizedException('El token no encontrado');
     }
 
-    const isValid = await bcrypt.compare(refreshToken, user.refreshToken);
+    const isValid = await this.hashService.compare(
+      refreshToken,
+      user.refreshToken,
+    );
 
     if (!isValid) {
       throw new UnauthorizedException();
     }
 
-    const newAccessToken = this.jwtService.sign(payload, { expiresIn: '1h' });
+    const newAccessToken = this.jwtService.sign(payload, { expiresIn: '15m' });
 
     const newRefreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
 

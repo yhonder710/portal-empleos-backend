@@ -11,10 +11,10 @@ import { PostgresDBRepo } from './infraestructure/Repository/Postgres_db.repo';
 import { PrismaModule } from '../../prisma/prisma.module';
 import 'dotenv/config';
 import { MailService } from '../../shared/services/messageEmail.service';
-import { accountVerificationUseCase } from './application/use-cases/Account-verification';
-import { OtpService } from '../../shared/services/otp.service';
+import { AccountVerificationUseCase } from './application/use-cases/Account-verification';
 import { ChangePasswordUseCase } from './application/use-cases/Change-password-use-case';
 import { BcryptHashService } from './infraestructure/services/bcrypt-hash.service';
+import { RedisService } from '../../shared/services/redis.service';
 
 @Module({
   imports: [
@@ -27,8 +27,7 @@ import { BcryptHashService } from './infraestructure/services/bcrypt-hash.servic
 
   providers: [
     MailService,
-    OtpService,
-    accountVerificationUseCase,
+    AccountVerificationUseCase,
     UsersUseCase,
     UsersIndividualUseCase,
     UsersCompanyUseCase,
@@ -38,6 +37,7 @@ import { BcryptHashService } from './infraestructure/services/bcrypt-hash.servic
     ChangePasswordUseCase,
     { provide: 'USER_REPOSITORY', useClass: PostgresDBRepo },
     { provide: 'HASH_SERVICE', useClass: BcryptHashService },
+    { provide: 'OTP_SERVICE_PORT', useClass: RedisService },
   ],
 
   controllers: [AuthController],

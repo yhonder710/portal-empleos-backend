@@ -8,7 +8,6 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../../domain/repositories/User-repository';
 import { JwtPayload } from '../../domain/interfaces/jwt-payload.interface';
-import * as bcrypt from 'bcrypt';
 import { ServicesToken } from '../services/Save-token';
 
 @Injectable()

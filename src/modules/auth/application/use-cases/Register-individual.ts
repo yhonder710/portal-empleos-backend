@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { UserRepository } from '../../domain/repositories/User-repository';
 
-import * as bcrypt from 'bcrypt';
 import { CreateUserIndividualInputPort } from '../../domain/interfaces/User-individual.interface';
 import { User } from '../../domain/entities/User';
 import type { HashService } from '../../domain/interfaces/hash-service.interface';
