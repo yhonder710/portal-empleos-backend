@@ -16,7 +16,6 @@ export class MailService {
       });
       return { success: true, message: 'Código de verificación enviado' };
     } catch (error) {
-      console.error('Error enviando código de verificación:', error);
       throw new Error(`No se pudo enviar el código: ${error}`);
     }
   }

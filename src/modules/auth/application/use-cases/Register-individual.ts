@@ -49,7 +49,6 @@ export class UsersIndividualUseCase {
         throw error;
       }
 
-      console.error(error);
       throw new InternalServerErrorException('Error al crear el usuario');
     }
   }
