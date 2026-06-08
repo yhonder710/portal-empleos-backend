@@ -96,17 +96,19 @@ export class AuthController {
       throw new UnauthorizedException('No tienes nigun token aun');
     }
 
-    const newToken = this.useCaseRefreshToken.refreshToken(refreshToken);
+    const newToken = await this.useCaseRefreshToken.refreshToken(refreshToken);
 
-    res.cookie('access_token', (await newToken).newAccessToken, {
+    res.cookie('access_token', newToken.newAccessToken, {
       httpOnly: true,
-      secure: false, // true en production
+      secure: true, // true en production
       sameSite: 'strict',
       maxAge: 1000 * 60 * 15,
     });
 
-    res.cookie('refresh_token', (await newToken).newRefreshToken, {
+    res.cookie('refresh_token', newToken.newRefreshToken, {
       httpOnly: true,
+      secure: true, // true en production
+      sameSite: 'strict',
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 
