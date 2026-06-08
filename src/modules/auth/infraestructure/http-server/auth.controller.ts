@@ -165,7 +165,7 @@ export class AuthController {
 
   @Patch('change-password')
   async changePassword(@Body() dto: ChangePasswordDto) {
-    await this.changePasswordUseCase.execute(dto.email, dto.NewPassword);
+    await this.changePasswordUseCase.execute(dto.email, dto.newPassword);
     return { message: 'Contraseña actualizada correctamente.' };
   }
 }

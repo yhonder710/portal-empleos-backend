@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserRepository } from '../../domain/repositories/User-repository';
+import type { UserRepository } from '../../domain/repositories/User-repository';
 import { JwtPayload } from '../../domain/interfaces/jwt-payload.interface';
 import { ServicesToken } from '../services/Save-token';
 import type { HashService } from '../../domain/interfaces/hash-service.interface';

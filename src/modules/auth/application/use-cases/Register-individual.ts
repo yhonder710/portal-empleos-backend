@@ -5,7 +5,7 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UserRepository } from '../../domain/repositories/User-repository';
+import type { UserRepository } from '../../domain/repositories/User-repository';
 
 import { CreateUserIndividualInputPort } from '../../domain/interfaces/User-individual.interface';
 import { User } from '../../domain/entities/User';

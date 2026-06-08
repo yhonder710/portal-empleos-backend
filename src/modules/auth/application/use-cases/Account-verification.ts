@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { MailService } from '../../../../shared/services/messageEmail.service';
-import { UserRepository } from '../../domain/repositories/User-repository';
+import type { UserRepository } from '../../domain/repositories/User-repository';
 import { User } from '../../domain/entities/User';
 import type { OtpService } from '../../domain/port/otp-service.interface';
 

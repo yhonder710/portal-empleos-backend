@@ -1,16 +1,13 @@
 import { User } from '../entities/User';
 
-export abstract class UserRepository {
-  abstract saveUserCompany(user: User): Promise<User>;
+export interface UserRepository {
+  saveUserCompany(user: User): Promise<User>;
 
-  abstract saveUserIndividual(user: User): Promise<User>;
+  saveUserIndividual(user: User): Promise<User>;
 
-  abstract userByEmail(email: string): Promise<User | undefined>;
+  userByEmail(email: string): Promise<User | undefined>;
 
-  abstract saveUpdateUser(user: Partial<User>): Promise<User | undefined>;
+  saveUpdateUser(user: Partial<User>): Promise<User | undefined>;
 
-  abstract updateUser(
-    id: string,
-    user: Partial<User>,
-  ): Promise<User | undefined>;
+  updateUser(id: string, user: Partial<User>): Promise<User | undefined>;
 }

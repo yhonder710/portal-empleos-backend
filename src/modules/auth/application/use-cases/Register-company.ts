@@ -4,7 +4,7 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { UserRepository } from '../../domain/repositories/User-repository';
+import type { UserRepository } from '../../domain/repositories/User-repository';
 
 import { User } from '../../domain/entities/User';
 import { CreateUserCompanyInputPort } from '../../domain/interfaces/User-company.interface';

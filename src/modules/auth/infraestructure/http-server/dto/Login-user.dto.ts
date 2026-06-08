@@ -4,10 +4,10 @@ export class LoginUserDto {
   @IsString()
   @IsEmail()
   @IsNotEmpty({ message: 'El nombre no puede estar vacío' })
-  email!: string;
+  readonly email!: string;
 
   @IsString()
   @IsNotEmpty({ message: 'El nombre no puede estar vacío' })
   @MinLength(6, { message: 'El nombre debe tener al menos 3 caracteres' })
-  password!: string;
+  readonly password!: string;
 }

@@ -10,5 +10,5 @@ export class ChangePasswordDto {
   @MinLength(6, {
     message: 'La nueva contraseña debe tener al menos 6 caracteres.',
   })
-  readonly NewPassword!: string;
+  readonly newPassword!: string;
 }
